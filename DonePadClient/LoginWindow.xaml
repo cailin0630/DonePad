@@ -1,0 +1,38 @@
+﻿<Window x:Class="DonePadClient.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DonePadClient"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="300" Width="300"
+        DataContext="{Binding Source={StaticResource Locator},Path=Login}"
+        xmlns:converter="clr-namespace:DonePadClient.Converters">
+    <Window.Resources>
+        <converter:StringToPasswordStringConverter x:Key="StringToPasswordStringConverter"/>
+    </Window.Resources>
+    <StackPanel Margin="20">
+        <TextBlock Text="用户名"></TextBlock>
+        <TextBox Text="{Binding Name,Mode=TwoWay}"></TextBox>
+        <TextBlock Text="密码"></TextBlock>
+        <TextBox Text="{Binding Password,Mode=TwoWay}"></TextBox>
+        <TextBlock Text="{Binding Tips}"></TextBlock>
+        <Button Content="登录" 
+                Command="{Binding LoginCommand}">
+        </Button>
+        <Grid >
+            <Button Content="注册" 
+                    Command="{Binding RegisterCommand}"
+                    HorizontalAlignment="Left"
+                    Width="124">
+            </Button>
+            <Button Content="修改密码"
+                    Command="{Binding UpdateCommand}" 
+                    HorizontalAlignment="Right" 
+                    Width="123">
+                
+            </Button>
+        </Grid>
+       
+    </StackPanel>
+</Window>
