@@ -1,13 +1,17 @@
-﻿<Window x:Class="DonePadClient.MainWindow"
+﻿<controls:MetroWindow x:Class="DonePadClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DonePadClient"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525"
-        DataContext="{Binding Source={StaticResource Locator},Path=Main}">
-    <Grid>
-        
-    </Grid>
-</Window>
+        Title="MainWindow" Height="575" Width="525"
+        DataContext="{Binding Source={StaticResource Locator},Path=Main}"
+        xmlns:converter="clr-namespace:DonePadClient.Converters"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        GlowBrush="{DynamicResource AccentColorBrush}">
+   <materialDesign:Clock RenderTransformOrigin="0.2,0.1"></materialDesign:Clock>
+</controls:MetroWindow>

@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using DonePadClient.View;
 
 namespace DonePadClient
 {
@@ -15,8 +16,10 @@ namespace DonePadClient
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            new LoginWindow().ShowDialog();
-            base.OnStartup(e);
+            ViewBase.RegisterView("Login", new LoginWindow());
+            ViewBase.RegisterView("Main", new MainWindow());
+           
+          
         }
     }
 }

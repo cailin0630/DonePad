@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using DonePadClient.Extensions;
 using DonePadClient.Models;
+using DonePadClient.View;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 
@@ -71,6 +73,7 @@ namespace DonePadClient.ViewModel
                 return;
             }
             Tips = "登录成功";
+            ViewBase.CloseView("Login");
         }
 
 
