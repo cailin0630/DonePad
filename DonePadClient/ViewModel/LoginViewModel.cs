@@ -51,7 +51,7 @@ namespace DonePadClient.ViewModel
                 Tips = "已注册";
                 return;
             }
-            MongoDb.MongoDbProvide.Insert(new User
+            MongoDb.MongoDbProvide.Insert<User>(new User
             {
                 Name = Name,
                 Password = Password
@@ -74,6 +74,7 @@ namespace DonePadClient.ViewModel
             }
             Tips = "登录成功";
             ViewBase.CloseView("Login");
+            
         }
 
 

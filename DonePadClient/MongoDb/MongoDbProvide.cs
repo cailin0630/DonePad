@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,10 @@ namespace DonePadClient.MongoDb
         static MongoDbProvide()
         {
             Init();
+            //CreateTables<User>();
+            //CreateTables<TodoInfos>();
         }
+
         private static MongoClient _mongoClient;
         private static IMongoDatabase _db;
         private static bool _connected;
@@ -19,38 +23,32 @@ namespace DonePadClient.MongoDb
             if (_connected)
                 return;
             _mongoClient = new MongoClient("mongodb://localhost:27017");
-            _db = _mongoClient.GetDatabase("ToDoDebug");
+            _db = _mongoClient.GetDatabase("ToDoDebug9");
 
             _connected = true;
         }
 
-        //private static void CreateTables()
-        //{
-        //    foreach (var name in Enum.GetNames(typeof(LogType)))
-        //    {
-        //        try
-        //        {
-        //            _db.CreateCollection(name);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e);
-        //        }
-        //    }
-        //}
+        private static void CreateTables<T>()
+        {
+            try
+            {
+                _db.CreateCollection(nameof(T));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
 
         public static void Insert<T>(T info)
         {
-            
-            var col = _db.GetCollection<T>(nameof(T));
+            var col = _db.GetCollection<T>(typeof(T).Name);
             col.InsertOne(info);
         }
 
         public static List<T> QueryList<T>()
         {
-            
-
-            var col = _db.GetCollection<T>(nameof(T));
+            var col = _db.GetCollection<T>(typeof(T).Name);
             return col.AsQueryable().ToList();
         }
 

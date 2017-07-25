@@ -13,5 +13,16 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}"
         GlowBrush="{DynamicResource AccentColorBrush}">
-   <materialDesign:Clock RenderTransformOrigin="0.2,0.1"></materialDesign:Clock>
+    <StackPanel Margin="10">
+        <Button Content="Todo" 
+                            
+                             Command="{Binding TodoCommand}" ></Button>
+        <Button Content="Todo" 
+              
+                Command="{Binding TodoCommand}" ></Button>
+        <Button Content="Todo" 
+              
+                Command="{Binding TodoCommand}" ></Button>
+    </StackPanel>
+ 
 </controls:MetroWindow>

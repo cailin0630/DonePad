@@ -1,4 +1,7 @@
+using System.Windows.Input;
+using DonePadClient.View;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace DonePadClient.ViewModel
 {
@@ -29,6 +32,13 @@ namespace DonePadClient.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
+            TodoCommand=new RelayCommand(DoTodo,()=>true);
         }
+
+        private void DoTodo()
+        {
+            new TodoView().ShowDialog();
+        }
+        public ICommand TodoCommand { get; set; }
     }
 }
