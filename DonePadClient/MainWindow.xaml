@@ -12,7 +12,8 @@
         xmlns:converter="clr-namespace:DonePadClient.Converters"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}"
-        GlowBrush="{DynamicResource AccentColorBrush}">
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen">
     <StackPanel Margin="10">
         <Button Content="Todo"
 

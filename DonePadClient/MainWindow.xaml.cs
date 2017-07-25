@@ -10,8 +10,7 @@ namespace DonePadClient
         public MainWindow()
         {
             InitializeComponent();
-            //new LoginWindow().ShowDialog();
-            ViewBase.ShowView("Login");
+            ViewBase.ShowView(nameof(LoginWindow));
         }
     }
 }

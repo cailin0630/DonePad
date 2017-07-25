@@ -36,7 +36,7 @@ namespace DonePadClient.ViewModel
 
         private void DoTodo()
         {
-            new TodoView().ShowDialog();
+            ViewBase.ShowView(nameof(TodoView));
         }
 
         public ICommand TodoCommand { get; set; }

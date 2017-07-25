@@ -10,8 +10,8 @@ namespace DonePadClient
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            ViewBase.RegisterView("Login", new LoginWindow());
-            //ViewBase.RegisterView("Main", new MainWindow());
+            ViewBase.RegisterView(nameof(LoginWindow),new LoginWindow());
+            ViewBase.RegisterView(nameof(TodoView), new TodoView());
         }
     }
 }

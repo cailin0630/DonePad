@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using DonePadClient.MongoDb;
 
 namespace DonePadClient.ViewModel
 {
@@ -20,7 +21,7 @@ namespace DonePadClient.ViewModel
         {
             try
             {
-                TodoList = MongoDb.MongoDbProvide.QueryList<TodoInfos>().Where(p=>p.UserName==GetInstance<User>().UserName).ToList();
+                TodoList = MongoDbProvide.QueryList<TodoInfos>().Where(p => p.UserName == GetInstance<User>().UserName).ToList();
             }
             catch (Exception ex)
             {
@@ -30,11 +31,11 @@ namespace DonePadClient.ViewModel
 
         private void DoConfirm()
         {
-            MongoDb.MongoDbProvide.Insert(new TodoInfos
+            MongoDbProvide.Insert(new TodoInfos
             {
                 Title = Title,
                 Text = Text,
-                InsertDateTime = InsertDateTime,
+                InsertDateTime = DateTime.Now,
                 EstimateDateTime = EstimateDateTime,
                 UserName = GetInstance<User>().UserName
             });
@@ -77,19 +78,8 @@ namespace DonePadClient.ViewModel
             }
         }
 
-        private DateTime _insertDateTime=DateTime.Now;
-
-        public DateTime InsertDateTime
-        {
-            get { return _insertDateTime; }
-            set
-            {
-                _insertDateTime = value;
-                RaisePropertyChanged();
-            }
-        }
-
         private DateTime _estimateDateTime = DateTime.Now;
+
         public DateTime EstimateDateTime
         {
             get { return _estimateDateTime; }
@@ -99,6 +89,7 @@ namespace DonePadClient.ViewModel
                 RaisePropertyChanged();
             }
         }
+
         public ICommand ConfirmCommand { get; set; }
     }
 }

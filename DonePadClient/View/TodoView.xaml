@@ -11,18 +11,16 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}"
         GlowBrush="{DynamicResource AccentColorBrush}"
-        DataContext="{Binding Source={StaticResource Locator},Path=Todo}">
+        DataContext="{Binding Source={StaticResource Locator},Path=Todo}"
+        WindowStartupLocation="CenterScreen">
     <StackPanel Margin="10">
         <DataGrid ItemsSource="{Binding TodoList}"></DataGrid>
         <TextBlock Text="Title"></TextBlock>
         <TextBox Text="{Binding Title}"></TextBox>
         <TextBlock Text="Text"></TextBlock>
         <TextBox Text="{Binding Text}"></TextBox>
-        <TextBlock Text="InsertDateTime"></TextBlock>
-        <controls:DateTimePicker  IsTodayHighlighted="True"
-                                  SelectedDate="{Binding InsertDateTime,Mode=TwoWay}"
-                                  >
-        </controls:DateTimePicker>
+       
+     
         <TextBlock Text="EstimateDateTime"></TextBlock>
         <controls:DateTimePicker IsTodayHighlighted="True"
                                  SelectedDate="{Binding EstimateDateTime,Mode=TwoWay}">

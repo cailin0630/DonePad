@@ -13,7 +13,7 @@ namespace DonePadClient.View
 
         public static List<ViewInfo> ViewList { get; set; } = new List<ViewInfo>();
 
-        public static void RegisterView(string key, MetroWindow window)
+        public static void RegisterView(string key,MetroWindow window)
         {
             ViewList.Add(new ViewInfo
             {
@@ -37,6 +37,7 @@ namespace DonePadClient.View
             {
                 if (view.Key == key)
                     view.MetroWindow.Close();
+                    
             }
         }
     }

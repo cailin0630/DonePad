@@ -71,7 +71,7 @@ namespace DonePadClient.ViewModel
             Tips = "登录成功";
             UserModel.UserName = Name;
             UserModel.Password = Password;
-            ViewBase.CloseView("Login");
+            ViewBase.CloseView(nameof(LoginWindow));
         }
 
         #region MyBinding

@@ -12,7 +12,8 @@
         xmlns:converter="clr-namespace:DonePadClient.Converters"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}"
-        GlowBrush="{DynamicResource AccentColorBrush}">
+        GlowBrush="{DynamicResource AccentColorBrush}"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converter:StringToPasswordStringConverter x:Key="StringToPasswordStringConverter" />
     </Window.Resources>
