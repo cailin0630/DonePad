@@ -14,15 +14,14 @@
         Background="{DynamicResource MaterialDesignPaper}"
         GlowBrush="{DynamicResource AccentColorBrush}">
     <StackPanel Margin="10">
-        <Button Content="Todo" 
-                            
+        <Button Content="Todo"
+
                              Command="{Binding TodoCommand}" ></Button>
-        <Button Content="Todo" 
-              
+        <Button Content="Todo"
+
                 Command="{Binding TodoCommand}" ></Button>
-        <Button Content="Todo" 
-              
+        <Button Content="Todo"
+
                 Command="{Binding TodoCommand}" ></Button>
     </StackPanel>
- 
 </controls:MetroWindow>

@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="TodoView" Height="800" Width="300"
+        Title="TodoView" MinHeight="500" Width="500"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}"
         GlowBrush="{DynamicResource AccentColorBrush}"
@@ -19,9 +19,14 @@
         <TextBlock Text="Text"></TextBlock>
         <TextBox Text="{Binding Text}"></TextBox>
         <TextBlock Text="InsertDateTime"></TextBlock>
-        <TextBox Text="{Binding InsertDateTime}"></TextBox>
+        <controls:DateTimePicker  IsTodayHighlighted="True"
+                                  SelectedDate="{Binding InsertDateTime,Mode=TwoWay}"
+                                  >
+        </controls:DateTimePicker>
         <TextBlock Text="EstimateDateTime"></TextBlock>
-        <TextBox Text="{Binding EstimateDateTime}"></TextBox>
+        <controls:DateTimePicker IsTodayHighlighted="True"
+                                 SelectedDate="{Binding EstimateDateTime,Mode=TwoWay}">
+        </controls:DateTimePicker>
         <Button Content="Add Todo" Command ="{Binding ConfirmCommand}"></Button>
     </StackPanel>
 </controls:MetroWindow>

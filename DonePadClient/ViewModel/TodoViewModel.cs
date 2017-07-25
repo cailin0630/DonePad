@@ -1,49 +1,48 @@
-﻿using System;
+﻿using DonePadClient.Models;
+using GalaSoft.MvvmLight.CommandWpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using DonePadClient.Models;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace DonePadClient.ViewModel
 {
-    public class TodoViewModel:ViewModelBase
+    public class TodoViewModel : ViewModelBase
     {
         public TodoViewModel()
         {
             Init();
-            ConfirmCommand =new RelayCommand(DoConfirm,()=>true);
+            ConfirmCommand = new RelayCommand(DoConfirm, () => true);
         }
 
         private void Init()
         {
             try
             {
-                TodoList = MongoDb.MongoDbProvide.QueryList<TodoInfos>();
+                TodoList = MongoDb.MongoDbProvide.QueryList<TodoInfos>().Where(p=>p.UserName==GetInstance<User>().UserName).ToList();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-           
-          
         }
+
         private void DoConfirm()
         {
-            MongoDb.MongoDbProvide.Insert<TodoInfos>(new TodoInfos
+            MongoDb.MongoDbProvide.Insert(new TodoInfos
             {
                 Title = Title,
-                Text = Text
+                Text = Text,
+                InsertDateTime = InsertDateTime,
+                EstimateDateTime = EstimateDateTime,
+                UserName = GetInstance<User>().UserName
             });
             Init();
         }
 
-
         private IReadOnlyCollection<TodoInfos> _todoList;
+
         public IReadOnlyCollection<TodoInfos> TodoList
         {
             get { return _todoList; }
@@ -78,6 +77,28 @@ namespace DonePadClient.ViewModel
             }
         }
 
+        private DateTime _insertDateTime=DateTime.Now;
+
+        public DateTime InsertDateTime
+        {
+            get { return _insertDateTime; }
+            set
+            {
+                _insertDateTime = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private DateTime _estimateDateTime = DateTime.Now;
+        public DateTime EstimateDateTime
+        {
+            get { return _estimateDateTime; }
+            set
+            {
+                _estimateDateTime = value;
+                RaisePropertyChanged();
+            }
+        }
         public ICommand ConfirmCommand { get; set; }
     }
 }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DonePadClient.View;
 using System.Windows;
-using DonePadClient.View;
 
 namespace DonePadClient
 {
@@ -18,8 +12,6 @@ namespace DonePadClient
         {
             ViewBase.RegisterView("Login", new LoginWindow());
             //ViewBase.RegisterView("Main", new MainWindow());
-           
-          
         }
     }
 }

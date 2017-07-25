@@ -10,8 +10,6 @@ namespace DonePadClient.MongoDb
         static MongoDbProvide()
         {
             Init();
-            //CreateTables<User>();
-            //CreateTables<TodoInfos>();
         }
 
         private static MongoClient _mongoClient;
@@ -23,8 +21,7 @@ namespace DonePadClient.MongoDb
             if (_connected)
                 return;
             _mongoClient = new MongoClient("mongodb://localhost:27017");
-            _db = _mongoClient.GetDatabase("ToDoDebug9");
-
+            _db = _mongoClient.GetDatabase("ToDoDebug10");
             _connected = true;
         }
 

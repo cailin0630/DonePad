@@ -4,7 +4,7 @@
       <vm:ViewModelLocator xmlns:vm="clr-namespace:DonePadClient"
                            x:Key="Locator" />
   </Application.Resources>
-  
+
   In the View:
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 
@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using DonePadClient.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
@@ -41,10 +42,13 @@ namespace DonePadClient.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
-
+            //×¢²áviewmodel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<TodoViewModel>();
+            //×¢²ámodel
+            SimpleIoc.Default.Register<User>();
+            SimpleIoc.Default.Register<TodoInfos>();
         }
 
         public MainViewModel Main
@@ -64,9 +68,12 @@ namespace DonePadClient.ViewModel
         {
             get { return ServiceLocator.Current.GetInstance<TodoViewModel>(); }
         }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels
         }
+
+
     }
 }

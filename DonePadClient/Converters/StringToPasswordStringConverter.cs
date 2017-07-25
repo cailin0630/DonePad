@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DonePadClient.Extensions;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using DonePadClient.Extensions;
 
 namespace DonePadClient.Converters
 {
     [ValueConversion(typeof(string), typeof(string))]
-    public class StringToPasswordStringConverter:IValueConverter
+    public class StringToPasswordStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -21,7 +17,5 @@ namespace DonePadClient.Converters
         {
             return (value as string)?.ToPasswordString();
         }
-
-      
     }
 }

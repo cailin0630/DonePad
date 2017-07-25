@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
-using DonePadClient.Extensions;
+﻿using DonePadClient.Extensions;
 using DonePadClient.Models;
 using DonePadClient.View;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using System.Linq;
+using System.Windows.Input;
 
 namespace DonePadClient.ViewModel
 {
-    public  class LoginViewModel:ViewModelBase
+    public class LoginViewModel : ViewModelBase
     {
         public LoginViewModel()
         {
-            LoginCommand=new RelayCommand(DoLoginCommand,()=>true);
-            RegisterCommand=new RelayCommand(DoRegisterCommand,()=>true);
-            UpdateCommand=new RelayCommand(DoUpdateCommand,()=>true);
+            LoginCommand = new RelayCommand(DoLoginCommand, () => true);
+            RegisterCommand = new RelayCommand(DoRegisterCommand, () => true);
+            UpdateCommand = new RelayCommand(DoUpdateCommand, () => true);
+            UserModel = GetInstance<User>();
         }
 
+        public User UserModel { get; set; }
         private void DoUpdateCommand()
         {
             if (Name.IsNullOrWhiteSpace() || Password.IsNullOrWhiteSpace())
@@ -29,7 +25,7 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.Name == Name) != null;
+            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name) != null;
             if (!ret)
             {
                 Tips = "用户名未注册";
@@ -45,15 +41,15 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.Name == Name && p.Password == Password) != null;
+            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name && p.Password == Password) != null;
             if (ret)
             {
                 Tips = "已注册";
                 return;
             }
-            MongoDb.MongoDbProvide.Insert<User>(new User
+            MongoDb.MongoDbProvide.Insert(new User
             {
-                Name = Name,
+                UserName = Name,
                 Password = Password
             });
             Tips = "注册成功";
@@ -66,18 +62,23 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.Name == Name&&p.Password==Password)!=null;
+            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name && p.Password == Password) != null;
             if (!ret)
             {
                 Tips = "用户名或密码错误";
                 return;
             }
             Tips = "登录成功";
+            UserModel.UserName = Name;
+            UserModel.Password = Password;
             ViewBase.CloseView("Login");
-            
         }
 
+        #region MyBinding
 
+        
+
+       
         private string _tips;
 
         public string Tips
@@ -89,6 +90,7 @@ namespace DonePadClient.ViewModel
                 RaisePropertyChanged();
             }
         }
+
         private string _name;
 
         public string Name
@@ -114,6 +116,7 @@ namespace DonePadClient.ViewModel
         }
 
         private ICommand _loginCommand;
+
         public ICommand LoginCommand
         {
             get { return _loginCommand; }
@@ -128,7 +131,7 @@ namespace DonePadClient.ViewModel
 
         public ICommand RegisterCommand
         {
-            get {return _registerCommand;}
+            get { return _registerCommand; }
             set
             {
                 _registerCommand = value;
@@ -140,12 +143,13 @@ namespace DonePadClient.ViewModel
 
         public ICommand UpdateCommand
         {
-            get {return _updateCommand;}
+            get { return _updateCommand; }
             set
             {
                 _updateCommand = value;
                 RaisePropertyChanged();
             }
         }
+        #endregion
     }
 }
