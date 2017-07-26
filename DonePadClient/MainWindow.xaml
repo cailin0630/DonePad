@@ -13,16 +13,22 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
         Background="{DynamicResource MaterialDesignPaper}"
         GlowBrush="{DynamicResource AccentColorBrush}"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        xmlns:localControls="clr-namespace:DonePadClient.View">
     <StackPanel Margin="10">
-        <Button Content="Todo"
-
-                             Command="{Binding TodoCommand}" ></Button>
-        <Button Content="Todo"
-
-                Command="{Binding TodoCommand}" ></Button>
-        <Button Content="Todo"
-
-                Command="{Binding TodoCommand}" ></Button>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <materialDesign:PackIcon Kind="Account"></materialDesign:PackIcon>
+            <TextBlock Text="{Binding UserName}"></TextBlock>
+        </StackPanel>
+      
+        <controls:MetroTabControl>
+            <controls:MetroTabItem Header="Todo">
+                <localControls:TodoView></localControls:TodoView>
+            </controls:MetroTabItem>
+            <controls:MetroTabItem Header="Done">
+            </controls:MetroTabItem>
+            <TabItem>
+            </TabItem>
+        </controls:MetroTabControl>
     </StackPanel>
 </controls:MetroWindow>

@@ -1,4 +1,3 @@
-using DonePadClient.View;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows.Input;
 
@@ -31,14 +30,18 @@ namespace DonePadClient.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
-            TodoCommand = new RelayCommand(DoTodo, () => true);
+            
         }
 
-        private void DoTodo()
+        private string _userName;
+        public string UserName
         {
-            ViewBase.ShowView(nameof(TodoView));
+            get { return _userName; }
+            set
+            {
+                _userName = value;
+                RaisePropertyChanged();
+            }
         }
-
-        public ICommand TodoCommand { get; set; }
     }
 }

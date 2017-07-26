@@ -18,6 +18,7 @@ namespace DonePadClient.ViewModel
         }
 
         public User UserModel { get; set; }
+
         private void DoUpdateCommand()
         {
             if (Name.IsNullOrWhiteSpace() || Password.IsNullOrWhiteSpace())
@@ -71,14 +72,12 @@ namespace DonePadClient.ViewModel
             Tips = "登录成功";
             UserModel.UserName = Name;
             UserModel.Password = Password;
-            ViewBase.CloseView(nameof(LoginWindow));
+
+            NotifyToWindow(NotifyCommand.LoginClose);
         }
 
         #region MyBinding
 
-        
-
-       
         private string _tips;
 
         public string Tips
@@ -150,6 +149,7 @@ namespace DonePadClient.ViewModel
                 RaisePropertyChanged();
             }
         }
-        #endregion
+
+        #endregion MyBinding
     }
 }

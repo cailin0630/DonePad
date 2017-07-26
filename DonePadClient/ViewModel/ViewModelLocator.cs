@@ -13,7 +13,6 @@
 */
 
 using DonePadClient.Models;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -49,6 +48,9 @@ namespace DonePadClient.ViewModel
             //×¢²ámodel
             SimpleIoc.Default.Register<User>();
             SimpleIoc.Default.Register<TodoInfos>();
+            //×¢²áview
+            SimpleIoc.Default.Register<LoginWindow>();
+            SimpleIoc.Default.Register<MainWindow>();
         }
 
         public MainViewModel Main
@@ -73,7 +75,5 @@ namespace DonePadClient.ViewModel
         {
             // TODO Clear the ViewModels
         }
-
-
     }
 }

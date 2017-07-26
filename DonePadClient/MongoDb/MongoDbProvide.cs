@@ -44,16 +44,18 @@ namespace DonePadClient.MongoDb
             col.InsertOne(info);
         }
 
-        public static List<T> QueryList<T>(Expression<Func<T,bool>> expression)
+        public static List<T> QueryList<T>(Expression<Func<T, bool>> expression)
         {
             var col = _db.GetCollection<T>(typeof(T).Name);
             return col.AsQueryable().Where(expression).ToList();
         }
+
         public static List<T> QueryList<T>()
         {
             var col = _db.GetCollection<T>(typeof(T).Name);
             return col.AsQueryable().ToList();
         }
+
         //public static void Update<T>(T info)
         //{
         //    var col = _db.GetCollection<T>(nameof(T));

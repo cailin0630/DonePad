@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.ServiceLocation;
+﻿using DonePadClient.View;
+using GalaSoft.MvvmLight.Messaging;
+using Microsoft.Practices.ServiceLocation;
 
 namespace DonePadClient.ViewModel
 {
@@ -6,7 +8,12 @@ namespace DonePadClient.ViewModel
     {
         public T GetInstance<T>()
         {
-           return ServiceLocator.Current.GetInstance<T>(typeof(T).Name);
+            return ServiceLocator.Current.GetInstance<T>(typeof(T).Name);
+        }
+
+        public void NotifyToWindow(NotifyCommand command)
+        {
+            Messenger.Default.Send(new NotificationMessage(this, command.ToString()));
         }
     }
 }

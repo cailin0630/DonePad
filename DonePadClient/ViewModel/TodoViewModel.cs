@@ -1,11 +1,11 @@
 ﻿using DonePadClient.Models;
+using DonePadClient.MongoDb;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using DonePadClient.MongoDb;
 
 namespace DonePadClient.ViewModel
 {

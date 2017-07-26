@@ -1,5 +1,4 @@
-﻿using DonePadClient.View;
-using System.Windows;
+﻿using System.Windows;
 
 namespace DonePadClient
 {
@@ -10,8 +9,6 @@ namespace DonePadClient
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            ViewBase.RegisterView(nameof(LoginWindow),new LoginWindow());
-            ViewBase.RegisterView(nameof(TodoView), new TodoView());
         }
     }
 }
