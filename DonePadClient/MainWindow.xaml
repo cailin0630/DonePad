@@ -16,20 +16,23 @@
         WindowStartupLocation="CenterScreen"
         xmlns:localControls="clr-namespace:DonePadClient.View">
     <StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right">
             <materialDesign:PackIcon Kind="Account"></materialDesign:PackIcon>
             <TextBlock Text="{Binding UserName}"
                        Foreground="#ffffff"
                        Margin="10,0"></TextBlock>
+            <ToggleButton  Content="LogOut" 
+                          Command="{Binding LogOutCommand}"></ToggleButton>
         </StackPanel>
       
-        <controls:MetroTabControl Margin="0,10,0,0">
+        <controls:MetroTabControl>
             <controls:MetroTabItem Header="Todo"
                                    Width="150">
                 <localControls:TodoView></localControls:TodoView>
             </controls:MetroTabItem>
             <controls:MetroTabItem Header="Done"
                                    Width="150">
+                <localControls:DoneView></localControls:DoneView>
             </controls:MetroTabItem>
             <controls:MetroTabItem Header="AddTodo"
                                    Width="150">

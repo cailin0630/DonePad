@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="Models\TodoInfos.cs" />
     <Compile Include="ViewModel\AddTodoViewModel.cs" />
+    <Compile Include="ViewModel\DoneViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TodoViewModel.cs" />
@@ -101,6 +102,9 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AddTodoView.xaml.cs">
       <DependentUpon>AddTodoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DoneView.xaml.cs">
+      <DependentUpon>DoneView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TodoView.xaml.cs">
       <DependentUpon>TodoView.xaml</DependentUpon>
@@ -123,6 +127,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AddTodoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DoneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

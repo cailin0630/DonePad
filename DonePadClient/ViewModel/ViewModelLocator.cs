@@ -46,6 +46,7 @@ namespace DonePadClient.ViewModel
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<TodoViewModel>();
             SimpleIoc.Default.Register<AddTodoViewModel>();
+            SimpleIoc.Default.Register<DoneViewModel>();
             //×¢²ámodel
             SimpleIoc.Default.Register<User>();
             SimpleIoc.Default.Register<TodoInfos>();
@@ -75,6 +76,11 @@ namespace DonePadClient.ViewModel
         public AddTodoViewModel AddTodo
         {
             get { return ServiceLocator.Current.GetInstance<AddTodoViewModel>(); }
+        }
+
+        public DoneViewModel Done
+        {
+            get { return ServiceLocator.Current.GetInstance<DoneViewModel>(); }
         }
         public static void Cleanup()
         {

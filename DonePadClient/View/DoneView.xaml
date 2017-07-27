@@ -1,0 +1,58 @@
+﻿<controls:MetroContentControl x:Class="DonePadClient.View.DoneView"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                              xmlns:local="clr-namespace:DonePadClient.View"
+                              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                              mc:Ignorable="d"
+                              FontFamily="{DynamicResource MaterialDesignFont}"
+                              Background="{DynamicResource MaterialDesignPaper}"
+                              DataContext="{Binding Source={StaticResource Locator},Path=Done}"
+                              Name="DoneViewTitle">
+
+    <StackPanel>
+        <Button Command="{Binding FreshCommand}"
+                Content="Fresh"></Button>
+        <DataGrid ItemsSource="{Binding DoneList}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="False"
+                  CanUserResizeRows="False"
+                  CanUserSortColumns="False"
+                  IsReadOnly="True"
+                  SelectedItem="{Binding SelectedItem}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title"
+                                    Binding="{Binding Title}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Text"
+                                    Binding="{Binding Text}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="InsertDateTime"
+                                    Binding="{Binding InsertDateTime}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="EstimateDateTime"
+                                    Binding="{Binding EstimateDateTime}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="DoneDateTime"
+                                    Binding="{Binding DoneDateTime}">
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="Delete">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete"
+                                    Command="{Binding ElementName=DoneViewTitle,
+                                                      Path=DataContext.DeleteCommand}">
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+               
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
+</controls:MetroContentControl>

@@ -1,15 +1,12 @@
 ﻿using DonePadClient.Models;
 using DonePadClient.MongoDb;
 using GalaSoft.MvvmLight.CommandWpf;
+using MongoDB.Driver;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using MahApps.Metro.Controls.Dialogs;
-using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace DonePadClient.ViewModel
 {
@@ -18,38 +15,33 @@ namespace DonePadClient.ViewModel
         public TodoViewModel()
         {
             FreshCommand = new RelayCommand(DoFreshCommand, () => true);
-            DeleteCommand=new RelayCommand(DoDeleteCommand,()=>true);
-            DoneCommand=new RelayCommand(DoDoneCommand,()=>true);
+            DeleteCommand = new RelayCommand(DoDeleteCommand, () => true);
+            DoneCommand = new RelayCommand(DoDoneCommand, () => true);
         }
 
         private void DoDoneCommand()
         {
-            if (SelectedItem != null)
-            {
-                var filter = Builders<TodoInfos>.Filter.Eq("_id",SelectedItem._id);
-                var update = Builders<TodoInfos>.Update.Set("IsDone", true);
-                MongoDbProvide.Update(filter, update);
-            }
+            if (SelectedItem == null) return;
+            var filter = Builders<TodoInfos>.Filter.Eq("_id", SelectedItem._id);
+            var update = Builders<TodoInfos>.Update.Set("IsDone", true)
+                                                   .Set("DoneDateTime",DateTime.Now);
+            MongoDbProvide.Update(filter, update);
             TodoList.Remove(SelectedItem);
         }
 
         private void DoDeleteCommand()
         {
-            
-            if (SelectedItem != null)
-            {
-                MongoDbProvide.DeleteOne<TodoInfos>(p=>p._id==SelectedItem._id);
-            }
+            if (SelectedItem == null) return;
+            MongoDbProvide.Delete<TodoInfos>(p => p._id == SelectedItem._id);
             TodoList.Remove(SelectedItem);
         }
-
 
         private void DoFreshCommand()
         {
             try
             {
                 var userName = GetInstance<User>().UserName;
-                var list = MongoDbProvide.QueryList<TodoInfos>().Where(p => p.UserName == userName);
+                var list = MongoDbProvide.QueryList<TodoInfos>().Where(p => p.UserName == userName&&!p.IsDone);
                 TodoList = new ObservableCollection<TodoInfos>(list);
             }
             catch (Exception ex)

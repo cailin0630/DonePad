@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DonePadClient.Extensions;
 using DonePadClient.Models;
 using DonePadClient.MongoDb;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -19,6 +20,8 @@ namespace DonePadClient.ViewModel
 
         private void DoConfirm()
         {
+            if(Title.IsNullOrWhiteSpace()||Text.IsNullOrWhiteSpace())
+                return;
             MongoDbProvide.Insert(new TodoInfos
             {
                 Title = Title,
@@ -27,7 +30,14 @@ namespace DonePadClient.ViewModel
                 EstimateDateTime = EstimateDateTime,
                 UserName = GetInstance<User>().UserName
             });
-          
+            ClearInfo();
+        }
+
+        private void ClearInfo()
+        {
+            Title = null;
+            Text = null;
+            EstimateDateTime = DateTime.Now;
         }
         private string _title;
 

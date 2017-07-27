@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using DonePadClient.Models;
-using MongoDB.Bson;
 
 namespace DonePadClient.MongoDb
 {
@@ -58,17 +55,19 @@ namespace DonePadClient.MongoDb
             var col = _db.GetCollection<T>(typeof(T).Name);
             return col.AsQueryable().ToList();
         }
-       
-        public static void DeleteOne<T>(Expression<Func<T, bool>> predicate)
+
+        public static bool Delete<T>(Expression<Func<T, bool>> predicate)
         {
             var col = _db.GetCollection<T>(typeof(T).Name);
-            col.DeleteOne(predicate);
+            var result = col.DeleteMany(predicate);
+            return result != null && result.DeletedCount > 0;
         }
-        public static void Update<T>(FilterDefinition<T> f,UpdateDefinition<T> u)
+
+        public static bool Update<T>(FilterDefinition<T> f, UpdateDefinition<T> u)
         {
-            var col = _db.GetCollection<T>(nameof(T));
-          
-            col.UpdateOne(f,u);
+            var col = _db.GetCollection<T>(typeof(T).Name);
+            var result = col.UpdateMany(f, u);
+            return result != null && result.ModifiedCount > 0;
         }
     }
 }

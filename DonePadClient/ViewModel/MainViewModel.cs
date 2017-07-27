@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows.Input;
 using DonePadClient.Models;
+using System;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace DonePadClient.ViewModel
 {
@@ -33,7 +36,14 @@ namespace DonePadClient.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
+            LogOutCommand=new RelayCommand(DoLogOutCommand,()=>true);
             UpdateUserNameAsync();
+        }
+
+        private void DoLogOutCommand()
+        {
+            App.Current.Shutdown();
+            Process.Start(Assembly.GetExecutingAssembly().Location);
         }
 
         private void UpdateUserNameAsync()
@@ -54,6 +64,18 @@ namespace DonePadClient.ViewModel
             set
             {
                 _userName = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ICommand _logOutCommand;
+
+        public ICommand LogOutCommand
+        {
+            get { return _logOutCommand; }
+            set
+            {
+                _logOutCommand = value;
                 RaisePropertyChanged();
             }
         }
