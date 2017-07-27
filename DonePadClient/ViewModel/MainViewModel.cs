@@ -1,5 +1,8 @@
+using System.Threading;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows.Input;
+using DonePadClient.Models;
 
 namespace DonePadClient.ViewModel
 {
@@ -30,9 +33,20 @@ namespace DonePadClient.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
-            
+            UpdateUserNameAsync();
         }
 
+        private void UpdateUserNameAsync()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(500);
+                    UserName = GetInstance<User>().UserName;
+                }
+            });
+        }
         private string _userName;
         public string UserName
         {

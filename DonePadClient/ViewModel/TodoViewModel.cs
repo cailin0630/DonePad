@@ -2,10 +2,14 @@
 using DonePadClient.MongoDb;
 using GalaSoft.MvvmLight.CommandWpf;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using MahApps.Metro.Controls.Dialogs;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace DonePadClient.ViewModel
 {
@@ -13,15 +17,40 @@ namespace DonePadClient.ViewModel
     {
         public TodoViewModel()
         {
-            Init();
-            ConfirmCommand = new RelayCommand(DoConfirm, () => true);
+            FreshCommand = new RelayCommand(DoFreshCommand, () => true);
+            DeleteCommand=new RelayCommand(DoDeleteCommand,()=>true);
+            DoneCommand=new RelayCommand(DoDoneCommand,()=>true);
         }
 
-        private void Init()
+        private void DoDoneCommand()
+        {
+            if (SelectedItem != null)
+            {
+                var filter = Builders<TodoInfos>.Filter.Eq("_id",SelectedItem._id);
+                var update = Builders<TodoInfos>.Update.Set("IsDone", true);
+                MongoDbProvide.Update(filter, update);
+            }
+            TodoList.Remove(SelectedItem);
+        }
+
+        private void DoDeleteCommand()
+        {
+            
+            if (SelectedItem != null)
+            {
+                MongoDbProvide.DeleteOne<TodoInfos>(p=>p._id==SelectedItem._id);
+            }
+            TodoList.Remove(SelectedItem);
+        }
+
+
+        private void DoFreshCommand()
         {
             try
             {
-                TodoList = MongoDbProvide.QueryList<TodoInfos>().Where(p => p.UserName == GetInstance<User>().UserName).ToList();
+                var userName = GetInstance<User>().UserName;
+                var list = MongoDbProvide.QueryList<TodoInfos>().Where(p => p.UserName == userName);
+                TodoList = new ObservableCollection<TodoInfos>(list);
             }
             catch (Exception ex)
             {
@@ -29,22 +58,9 @@ namespace DonePadClient.ViewModel
             }
         }
 
-        private void DoConfirm()
-        {
-            MongoDbProvide.Insert(new TodoInfos
-            {
-                Title = Title,
-                Text = Text,
-                InsertDateTime = DateTime.Now,
-                EstimateDateTime = EstimateDateTime,
-                UserName = GetInstance<User>().UserName
-            });
-            Init();
-        }
+        private ObservableCollection<TodoInfos> _todoList;
 
-        private IReadOnlyCollection<TodoInfos> _todoList;
-
-        public IReadOnlyCollection<TodoInfos> TodoList
+        public ObservableCollection<TodoInfos> TodoList
         {
             get { return _todoList; }
             set
@@ -54,42 +70,52 @@ namespace DonePadClient.ViewModel
             }
         }
 
-        private string _title;
+        private ICommand _freshCommand;
 
-        public string Title
+        public ICommand FreshCommand
         {
-            get { return _title; }
+            get { return _freshCommand; }
             set
             {
-                _title = value;
+                _freshCommand = value;
                 RaisePropertyChanged();
             }
         }
 
-        private string _text;
+        private ICommand _deleteCommand;
 
-        public string Text
+        public ICommand DeleteCommand
         {
-            get { return _text; }
+            get { return _deleteCommand; }
             set
             {
-                _text = value;
+                _deleteCommand = value;
                 RaisePropertyChanged();
             }
         }
 
-        private DateTime _estimateDateTime = DateTime.Now;
+        private ICommand _doneCommand;
 
-        public DateTime EstimateDateTime
+        public ICommand DoneCommand
         {
-            get { return _estimateDateTime; }
+            get { return _doneCommand; }
             set
             {
-                _estimateDateTime = value;
+                _doneCommand = value;
                 RaisePropertyChanged();
             }
         }
 
-        public ICommand ConfirmCommand { get; set; }
+        private TodoInfos _selectedItem;
+
+        public TodoInfos SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                RaisePropertyChanged();
+            }
+        }
     }
 }

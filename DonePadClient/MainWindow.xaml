@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="575" Width="525"
+        Title="MainWindow" Height="600" Width="800"
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
         xmlns:converter="clr-namespace:DonePadClient.Converters"
         FontFamily="{DynamicResource MaterialDesignFont}"
@@ -15,20 +15,26 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen"
         xmlns:localControls="clr-namespace:DonePadClient.View">
-    <StackPanel Margin="10">
+    <StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <materialDesign:PackIcon Kind="Account"></materialDesign:PackIcon>
-            <TextBlock Text="{Binding UserName}"></TextBlock>
+            <TextBlock Text="{Binding UserName}"
+                       Foreground="#ffffff"
+                       Margin="10,0"></TextBlock>
         </StackPanel>
       
-        <controls:MetroTabControl>
-            <controls:MetroTabItem Header="Todo">
+        <controls:MetroTabControl Margin="0,10,0,0">
+            <controls:MetroTabItem Header="Todo"
+                                   Width="150">
                 <localControls:TodoView></localControls:TodoView>
             </controls:MetroTabItem>
-            <controls:MetroTabItem Header="Done">
+            <controls:MetroTabItem Header="Done"
+                                   Width="150">
             </controls:MetroTabItem>
-            <TabItem>
-            </TabItem>
+            <controls:MetroTabItem Header="AddTodo"
+                                   Width="150">
+                <localControls:AddTodoView></localControls:AddTodoView>
+            </controls:MetroTabItem>
         </controls:MetroTabControl>
     </StackPanel>
 </controls:MetroWindow>

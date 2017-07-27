@@ -13,5 +13,6 @@ namespace DonePadClient.Models
         public DateTime EstimateDateTime { get; set; }
         public DateTime DoneDateTime { get; set; }
         public string UserName { get; set; }
+        public bool IsDone { get; set; }
     }
 }

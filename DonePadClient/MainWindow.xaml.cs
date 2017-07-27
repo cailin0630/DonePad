@@ -1,4 +1,5 @@
-﻿using DonePadClient.Models;
+﻿using DonePadClient.Command;
+using DonePadClient.Models;
 using DonePadClient.View;
 using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.ServiceLocation;

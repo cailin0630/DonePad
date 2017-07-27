@@ -4,6 +4,7 @@ using DonePadClient.View;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Linq;
 using System.Windows.Input;
+using DonePadClient.Command;
 
 namespace DonePadClient.ViewModel
 {
