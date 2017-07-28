@@ -1,15 +1,14 @@
-using System.Threading;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight.CommandWpf;
-using System.Windows.Input;
 using DonePadClient.Models;
+using GalaSoft.MvvmLight.CommandWpf;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
-using System.Windows.Controls;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
 
 namespace DonePadClient.ViewModel
 {
@@ -40,7 +39,7 @@ namespace DonePadClient.ViewModel
             ////{
             ////    // Code runs "for real"
             ////}
-            LogOutCommand=new RelayCommand(DoLogOutCommand,()=>true);
+            LogOutCommand = new RelayCommand(DoLogOutCommand, () => true);
             UpdateUserNameAsync();
         }
 
@@ -69,15 +68,13 @@ namespace DonePadClient.ViewModel
                             bmp.EndInit();
                             UserImage = bmp;
                         }));
-                     
-                       
-                        
                     }
-                   
                 }
             });
         }
+
         private string _userName;
+
         public string UserName
         {
             get { return _userName; }
@@ -87,7 +84,9 @@ namespace DonePadClient.ViewModel
                 RaisePropertyChanged();
             }
         }
+
         private ImageSource _userImage;
+
         public ImageSource UserImage
         {
             get { return _userImage; }
@@ -97,6 +96,7 @@ namespace DonePadClient.ViewModel
                 RaisePropertyChanged();
             }
         }
+
         private ICommand _logOutCommand;
 
         public ICommand LogOutCommand
