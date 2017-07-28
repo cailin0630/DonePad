@@ -1,12 +1,17 @@
-﻿using DonePadClient.Extensions;
-using DonePadClient.Models;
-using DonePadClient.View;
-using GalaSoft.MvvmLight.CommandWpf;
-using System.Linq;
-using System.Windows.Input;
+﻿using System;
+using System.IO;
 using DonePadClient.Command;
-using MongoDB.Bson.Serialization;
+using DonePadClient.Extensions;
+using DonePadClient.Models;
+using GalaSoft.MvvmLight.CommandWpf;
 using MongoDB.Driver;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 
 namespace DonePadClient.ViewModel
 {
@@ -18,8 +23,19 @@ namespace DonePadClient.ViewModel
             RegisterCommand = new RelayCommand(DoRegisterCommand, () => true);
             UpdateCommand = new RelayCommand(DoUpdateCommand, () => true);
             UserModel = GetInstance<User>();
+            GetImage=new RelayCommand(DoGetImage,()=>true);
         }
 
+        private void DoGetImage()
+        {
+           var openfile=new OpenFileDialog();
+            openfile.ShowDialog();
+            _imageName = openfile.FileName;
+            ImageSource = new BitmapImage(new Uri(_imageName));
+
+        }
+
+        private string _imageName;
         public User UserModel { get; set; }
 
         private void DoUpdateCommand()
@@ -30,15 +46,15 @@ namespace DonePadClient.ViewModel
                 return;
             }
             var userInfo = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name);
-            
-            if (userInfo==null)
+
+            if (userInfo == null)
             {
                 Tips = "用户名未注册";
                 return;
             }
             var filter = Builders<User>.Filter.Eq("_id", userInfo._id);
             var update = Builders<User>.Update.Set("Password", Password.ToMd5EncryptString());
-            var ret= MongoDb.MongoDbProvide.Update(filter,update);
+            var ret = MongoDb.MongoDbProvide.Update(filter, update);
             Tips = ret ? "密码修改成功" : "密码修改失败";
         }
 
@@ -58,7 +74,8 @@ namespace DonePadClient.ViewModel
             MongoDb.MongoDbProvide.Insert(new User
             {
                 UserName = Name,
-                Password = Password.ToMd5EncryptString()
+                Password = Password.ToMd5EncryptString(),
+                Image = File.ReadAllBytes(_imageName)
             });
             Tips = "注册成功";
         }
@@ -70,16 +87,18 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name && p.Password == Password.ToMd5EncryptString()) != null;
-            if (!ret)
+            var userInfo = MongoDb.MongoDbProvide.QueryList<User>()
+                .FirstOrDefault(p => p.UserName == Name && p.Password == Password.ToMd5EncryptString());
+           
+            if (userInfo==null)
             {
                 Tips = "用户名或密码错误";
                 return;
             }
             Tips = "登录成功";
-            UserModel.UserName = Name;
-            UserModel.Password = Password;
-
+            UserModel.UserName = userInfo.UserName;
+            UserModel.Password = userInfo.Password;
+            UserModel.Image = userInfo.Image;
             NotifyToWindow(NotifyCommand.LoginClose);
         }
 
@@ -153,6 +172,30 @@ namespace DonePadClient.ViewModel
             set
             {
                 _updateCommand = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ImageSource _imageSource;
+
+        public ImageSource ImageSource
+        {
+            get { return _imageSource; }
+            set
+            {
+                _imageSource = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private ICommand _getImage;
+
+        public ICommand GetImage
+        {
+            get { return _getImage; }
+            set
+            {
+                _getImage = value;
                 RaisePropertyChanged();
             }
         }

@@ -17,11 +17,13 @@
         <TextBlock Text="Title"
                    Margin="10"></TextBlock>
         <TextBox Text="{Binding Title}"
-                 Margin="10"></TextBox>
+                 Margin="10"
+                 materialDesign:HintAssist.Hint="input title here"></TextBox>
         <TextBlock Text="Text"
                    Margin="10"></TextBlock>
         <TextBox Text="{Binding Text}"
-                 Margin="10"></TextBox>
+                 Margin="10"
+                 materialDesign:HintAssist.Hint="input text here"></TextBox>
 
         <TextBlock Text="EstimateDateTime"
                    Margin="10"></TextBlock>

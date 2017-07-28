@@ -11,13 +11,15 @@
         DataContext="{Binding Source={StaticResource Locator},Path=Main}"
         xmlns:converter="clr-namespace:DonePadClient.Converters"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="{DynamicResource HighlightBrush}"
         GlowBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen"
         xmlns:localControls="clr-namespace:DonePadClient.View">
     <StackPanel>
         <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <materialDesign:PackIcon Kind="Account"></materialDesign:PackIcon>
+            <Image Source="{Binding UserImage}"
+                   Height="50"
+                   Width="50"></Image>
             <TextBlock Text="{Binding UserName}"
                        Foreground="#ffffff"
                        Margin="10,0"></TextBlock>

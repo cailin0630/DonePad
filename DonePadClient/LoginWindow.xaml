@@ -7,11 +7,11 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="300" Width="300"
+        Title="LoginWindow" Height="480" Width="300"
         DataContext="{Binding Source={StaticResource Locator},Path=Login}"
         xmlns:converter="clr-namespace:DonePadClient.Converters"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="{DynamicResource HighlightBrush}"
         GlowBrush="{DynamicResource AccentColorBrush}"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -34,10 +34,26 @@
                          Margin="5"></TextBox>
         <TextBlock Text="{Binding Tips}"
                            Margin="5"></TextBlock>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <CheckBox Content="记住密码"
+                      Margin="5"
+                      IsChecked="{Binding IsKeepPassword}"></CheckBox>
+            <CheckBox Content="自动登录"
+                      Margin="5"
+                      IsChecked="{Binding IsAutoLogin}"></CheckBox>
+        </StackPanel>
         <Button Content="登录"
                         Command="{Binding LoginCommand}"
                         Margin="5">
         </Button>
+        <StackPanel>
+            <Image Source="{Binding ImageSource}"
+                   Width="100"
+                   Height="100"></Image>
+            <Button Command="{Binding GetImage}"
+                    Content="导入图片"></Button>
+        </StackPanel>
         <Grid>
             <Button Content="注册"
                             Command="{Binding RegisterCommand}"

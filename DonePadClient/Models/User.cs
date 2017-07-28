@@ -1,10 +1,14 @@
-﻿using MongoDB.Bson;
+﻿using System.Net.Mime;
+using System.Windows.Controls;
+using System.Windows.Media;
+using MongoDB.Bson;
 
 namespace DonePadClient.Models
 {
     public class User
     {
         public ObjectId _id { get; set; }
+        public byte[] Image { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public int Permission { get; set; }

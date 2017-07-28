@@ -6,6 +6,10 @@ using DonePadClient.Models;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace DonePadClient.ViewModel
 {
@@ -54,6 +58,22 @@ namespace DonePadClient.ViewModel
                 {
                     Thread.Sleep(500);
                     UserName = GetInstance<User>().UserName;
+                    var imagebyte = GetInstance<User>().Image;
+                    if (imagebyte != null)
+                    {
+                        App.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            var bmp = new BitmapImage();
+                            bmp.BeginInit();
+                            bmp.StreamSource = new MemoryStream(imagebyte);
+                            bmp.EndInit();
+                            UserImage = bmp;
+                        }));
+                     
+                       
+                        
+                    }
+                   
                 }
             });
         }
@@ -67,7 +87,16 @@ namespace DonePadClient.ViewModel
                 RaisePropertyChanged();
             }
         }
-
+        private ImageSource _userImage;
+        public ImageSource UserImage
+        {
+            get { return _userImage; }
+            set
+            {
+                _userImage = value;
+                RaisePropertyChanged();
+            }
+        }
         private ICommand _logOutCommand;
 
         public ICommand LogOutCommand
