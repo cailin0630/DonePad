@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DonePadClient.Extensions
 {
@@ -14,6 +16,12 @@ namespace DonePadClient.Extensions
             if (text.IsNullOrWhiteSpace()) return null;
             var passwordString = text.Select(p => '*').ToString();
             return passwordString;
+        }
+        public static string ToMd5EncryptString(this string text)
+        {
+            var md5 = new MD5CryptoServiceProvider();
+            var result = md5.ComputeHash(Encoding.Default.GetBytes(text));
+            return Encoding.Default.GetString(result);
         }
     }
 }

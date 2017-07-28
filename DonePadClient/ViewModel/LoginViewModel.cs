@@ -5,6 +5,8 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Linq;
 using System.Windows.Input;
 using DonePadClient.Command;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 
 namespace DonePadClient.ViewModel
 {
@@ -27,13 +29,17 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name) != null;
-            if (!ret)
+            var userInfo = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name);
+            
+            if (userInfo==null)
             {
                 Tips = "用户名未注册";
                 return;
             }
-            //MongoDb.MongoDbProvide.Update();
+            var filter = Builders<User>.Filter.Eq("_id", userInfo._id);
+            var update = Builders<User>.Update.Set("Password", Password.ToMd5EncryptString());
+            var ret= MongoDb.MongoDbProvide.Update(filter,update);
+            Tips = ret ? "密码修改成功" : "密码修改失败";
         }
 
         private void DoRegisterCommand()
@@ -43,7 +49,7 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name && p.Password == Password) != null;
+            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name) != null;
             if (ret)
             {
                 Tips = "已注册";
@@ -52,7 +58,7 @@ namespace DonePadClient.ViewModel
             MongoDb.MongoDbProvide.Insert(new User
             {
                 UserName = Name,
-                Password = Password
+                Password = Password.ToMd5EncryptString()
             });
             Tips = "注册成功";
         }
@@ -64,7 +70,7 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name && p.Password == Password) != null;
+            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name && p.Password == Password.ToMd5EncryptString()) != null;
             if (!ret)
             {
                 Tips = "用户名或密码错误";
