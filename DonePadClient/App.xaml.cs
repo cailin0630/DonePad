@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using DonePadClient.Config;
+using Newtonsoft.Json;
+
 
 namespace DonePadClient
 {
@@ -9,6 +13,8 @@ namespace DonePadClient
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+           LoginConfigHelper.ReadConfig();
+           MongoDbConfigHelper.ReadConfig();
         }
     }
 }

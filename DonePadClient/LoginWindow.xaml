@@ -47,13 +47,7 @@
                         Command="{Binding LoginCommand}"
                         Margin="5">
         </Button>
-        <StackPanel>
-            <Image Source="{Binding ImageSource}"
-                   Width="100"
-                   Height="100"></Image>
-            <Button Command="{Binding GetImage}"
-                    Content="导入图片"></Button>
-        </StackPanel>
+       
         <Grid>
             <Button Content="注册"
                             Command="{Binding RegisterCommand}"

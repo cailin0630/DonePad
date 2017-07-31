@@ -17,14 +17,20 @@
         xmlns:localControls="clr-namespace:DonePadClient.View">
     <StackPanel>
         <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Image Source="{Binding UserImage}"
-                   Height="50"
-                   Width="50"></Image>
-            <TextBlock Text="{Binding UserName}"
-                       Foreground="#ffffff"
-                       Margin="10,0"></TextBlock>
-            <ToggleButton  Content="LogOut" 
-                          Command="{Binding LogOutCommand}"></ToggleButton>
+            
+                <Image Source="{Binding UserImage}"
+                       Height="50"
+                       Width="50"></Image>
+                <Button Content="{Binding UserName}"
+                           Foreground="#ffffff"
+                           Margin="10,0"
+                        Command="{Binding UserInfoCommand}"
+                ></Button>
+          
+           
+            
+            <Button  Content="LogOut" 
+                     Command="{Binding LogOutCommand}"></Button>
         </StackPanel>
       
         <controls:MetroTabControl>

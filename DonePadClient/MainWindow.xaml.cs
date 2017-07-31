@@ -48,7 +48,7 @@ namespace DonePadClient
                 BalloonTipText = $@"hello {_currentUser}",
                 Text = $@"DonePad:{_currentUser}",
                 Visible = true,
-                Icon = new System.Drawing.Icon("0.ico")
+                Icon = new System.Drawing.Icon("mainLogo.ico")
             };
             notifyIcon.MouseClick += (s, e) =>
             {

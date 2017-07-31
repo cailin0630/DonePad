@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using DonePadClient.Config;
 
 namespace DonePadClient.MongoDb
 {
@@ -21,8 +22,8 @@ namespace DonePadClient.MongoDb
         {
             if (_connected)
                 return;
-            _mongoClient = new MongoClient("mongodb://localhost:27017");
-            _db = _mongoClient.GetDatabase("ToDoDebug10");
+            _mongoClient = new MongoClient(MongoDbConfigHelper.Config.ConnectionString);
+            _db = _mongoClient.GetDatabase(MongoDbConfigHelper.Config.DataBaseName);
             _connected = true;
         }
 

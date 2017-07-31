@@ -1,0 +1,8 @@
+{
+    "MongoDbConfig": {
+        "ConnectionString": "mongodb://localhost:27017",
+        "DataBaseName": "ToDoDebug10"
+
+
+    }
+}

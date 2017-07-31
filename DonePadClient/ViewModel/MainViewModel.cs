@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using DonePadClient.View;
 
 namespace DonePadClient.ViewModel
 {
@@ -106,6 +107,18 @@ namespace DonePadClient.ViewModel
             {
                 _logOutCommand = value;
                 RaisePropertyChanged();
+            }
+        }
+
+        private ICommand _userInfoCommand;
+        public ICommand UserInfoCommand
+        {
+            get
+            {
+                return _userInfoCommand!=null?_userInfoCommand:_userInfoCommand=new RelayCommand(() =>
+                {
+                    new UserInfoView().ShowDialog();
+                },()=>true);
             }
         }
     }

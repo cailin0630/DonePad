@@ -1,17 +1,16 @@
-﻿using System;
-using System.IO;
-using DonePadClient.Command;
+﻿using DonePadClient.Command;
+using DonePadClient.Config;
 using DonePadClient.Extensions;
 using DonePadClient.Models;
+using DonePadClient.View;
 using GalaSoft.MvvmLight.CommandWpf;
 using MongoDB.Driver;
+using System;
 using System.Linq;
-using System.Windows.Controls;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using MaterialDesignThemes.Wpf;
-using Microsoft.Win32;
 
 namespace DonePadClient.ViewModel
 {
@@ -23,16 +22,28 @@ namespace DonePadClient.ViewModel
             RegisterCommand = new RelayCommand(DoRegisterCommand, () => true);
             UpdateCommand = new RelayCommand(DoUpdateCommand, () => true);
             UserModel = GetInstance<User>();
-            GetImage=new RelayCommand(DoGetImage,()=>true);
-        }
+            IsAutoLogin = LoginConfigHelper.Config.IsAutoLogin;
+            IsKeepPassword = LoginConfigHelper.Config.IsKeepPassword;
+            if (LoginConfigHelper.Config.IsAutoLogin)
+            {
+                //todo auto login
+                Task.Factory.StartNew(() =>
+                {
+                    Name = LoginConfigHelper.Config.UserName;
+                    Password = LoginConfigHelper.Config.Password;
 
-        private void DoGetImage()
-        {
-           var openfile=new OpenFileDialog();
-            openfile.ShowDialog();
-            _imageName = openfile.FileName;
-            ImageSource = new BitmapImage(new Uri(_imageName));
-
+                    Thread.Sleep(3000);
+                    if (IsAutoLogin)
+                    {
+                        DoLoginCommand();
+                    }
+                });
+            }
+            else if (LoginConfigHelper.Config.IsKeepPassword)
+            {
+                Name = LoginConfigHelper.Config.UserName;
+                Password = LoginConfigHelper.Config.Password;
+            }
         }
 
         private string _imageName;
@@ -60,24 +71,7 @@ namespace DonePadClient.ViewModel
 
         private void DoRegisterCommand()
         {
-            if (Name.IsNullOrWhiteSpace() || Password.IsNullOrWhiteSpace())
-            {
-                Tips = "用户名或者密码为空";
-                return;
-            }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name) != null;
-            if (ret)
-            {
-                Tips = "已注册";
-                return;
-            }
-            MongoDb.MongoDbProvide.Insert(new User
-            {
-                UserName = Name,
-                Password = Password.ToMd5EncryptString(),
-                Image = File.ReadAllBytes(_imageName)
-            });
-            Tips = "注册成功";
+            new RegisterView().ShowDialog();
         }
 
         private void DoLoginCommand()
@@ -89,17 +83,27 @@ namespace DonePadClient.ViewModel
             }
             var userInfo = MongoDb.MongoDbProvide.QueryList<User>()
                 .FirstOrDefault(p => p.UserName == Name && p.Password == Password.ToMd5EncryptString());
-           
-            if (userInfo==null)
+
+            if (userInfo == null)
             {
                 Tips = "用户名或密码错误";
                 return;
             }
             Tips = "登录成功";
+            UserModel._id = userInfo._id;
             UserModel.UserName = userInfo.UserName;
-            UserModel.Password = userInfo.Password;
             UserModel.Image = userInfo.Image;
-            NotifyToWindow(NotifyCommand.LoginClose);
+
+            LoginConfigHelper.Config.IsAutoLogin = IsAutoLogin;
+            LoginConfigHelper.Config.UserName = Name;
+            LoginConfigHelper.Config.Password = Password;
+            LoginConfigHelper.Config.IsKeepPassword = IsKeepPassword;
+            LoginConfigHelper.UpdateConfig();
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                NotifyToWindow(NotifyCommand.LoginClose);
+            }));
         }
 
         #region MyBinding
@@ -176,26 +180,26 @@ namespace DonePadClient.ViewModel
             }
         }
 
-        private ImageSource _imageSource;
+        private bool _isKeepPassword;
 
-        public ImageSource ImageSource
+        public bool IsKeepPassword
         {
-            get { return _imageSource; }
+            get { return _isKeepPassword; }
             set
             {
-                _imageSource = value;
+                _isKeepPassword = value;
                 RaisePropertyChanged();
             }
         }
 
-        private ICommand _getImage;
+        private bool _isAutoLogin;
 
-        public ICommand GetImage
+        public bool IsAutoLogin
         {
-            get { return _getImage; }
+            get { return _isAutoLogin; }
             set
             {
-                _getImage = value;
+                _isAutoLogin = value;
                 RaisePropertyChanged();
             }
         }
