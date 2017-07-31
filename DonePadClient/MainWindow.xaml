@@ -17,10 +17,27 @@
         xmlns:localControls="clr-namespace:DonePadClient.View">
     <StackPanel>
         <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right">
-            
+
+            <Grid 
+                  Width="30"
+                  Height="30"
+                  >
+                <Grid.OpacityMask>
+                    <RadialGradientBrush>
+                        <GradientStop Offset="0" Color="#FF000000" />
+                        <GradientStop Offset="0.99" Color="#FF000000" />
+                        <GradientStop Offset="1" Color="#00000000" />
+                    </RadialGradientBrush>
+                </Grid.OpacityMask>
+                <Ellipse Fill="Transparent" />
                 <Image Source="{Binding UserImage}"
-                       Height="50"
-                       Width="50"></Image>
+                       Height="30"
+                       Width="30"
+                       Stretch="Uniform"></Image>
+            </Grid>
+           
+            
+               
                 <Button Content="{Binding UserName}"
                            Foreground="#ffffff"
                            Margin="10,0"
