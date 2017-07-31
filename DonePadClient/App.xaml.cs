@@ -15,6 +15,7 @@ namespace DonePadClient
         {
            LoginConfigHelper.ReadConfig();
            MongoDbConfigHelper.ReadConfig();
+           base.OnStartup(e);
         }
     }
 }

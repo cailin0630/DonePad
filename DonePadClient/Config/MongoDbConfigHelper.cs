@@ -9,7 +9,20 @@ namespace DonePadClient.Config
         private const string ConfigUrl = "Config/MongoDbConfig.json";
         public static void ReadConfig()
         {
-            Config = JsonConvert.DeserializeObject<MongoDbConfig>(File.ReadAllText(ConfigUrl,Encoding.UTF8));
+            if (!File.Exists(ConfigUrl))
+            {
+                Config = new MongoDbConfig
+                {
+                    ConnectionString = "mongodb://localhost:27017",
+                    DataBaseName = "TodoRelease"
+                };
+                UpdateConfig();
+            }
+            else
+            {
+                Config = JsonConvert.DeserializeObject<MongoDbConfig>(File.ReadAllText(ConfigUrl, Encoding.UTF8));
+            }
+           
         }
 
         public static void UpdateConfig()

@@ -9,8 +9,23 @@ namespace DonePadClient.Config
         private const string ConfigUrl = "Config/LoginConfig.json";
         public static void ReadConfig()
         {
-            var jsonStr = File.ReadAllText(ConfigUrl, Encoding.UTF8);
-            Config = JsonConvert.DeserializeObject<LoginConfig>(jsonStr);
+            if (!File.Exists(ConfigUrl))
+            {
+                Config=new LoginConfig
+                {
+                    IsKeepPassword=false,
+                    IsAutoLogin = false,
+                    UserName = null,
+                    Password = null
+                };
+                UpdateConfig();
+            }
+            else
+            {
+                var jsonStr = File.ReadAllText(ConfigUrl, Encoding.UTF8);
+                Config = JsonConvert.DeserializeObject<LoginConfig>(jsonStr);
+            }
+           
         }
 
         public static void UpdateConfig()
@@ -20,13 +35,19 @@ namespace DonePadClient.Config
 
         public static LoginConfig Config;
 
-        public class LoginConfig
-        {
-            public bool IsKeepPassword { get; set; }
-            public bool IsAutoLogin { get; set; }
-            public string UserName { get; set; }
-            public string Password { get; set; }
-        }
+       
+        
       
+    }
+    public class LoginConfig
+    {
+
+        public bool IsKeepPassword { get; set; }
+
+        public bool IsAutoLogin { get; set; }
+
+        public string UserName { get; set; }
+
+        public string Password { get; set; }
     }
 }
