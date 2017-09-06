@@ -35,7 +35,7 @@ namespace DonePadClient.MySql
             }
         }
 
-        public static users QuerySingleUser(decimal userId)
+        public static users QuerySingleUser(int userId)
         {
             using (var con = OpenMySqlConnection())
             {
@@ -93,7 +93,24 @@ namespace DonePadClient.MySql
             var valueStr = "";
             foreach (var property in properties)
             {
+                //过滤主键
+                var att = property.GetCustomAttributes(false);
+                if (att.Length > 0)
+                    continue;
+                var propertyType = property.PropertyType;
+
+                if (propertyType.IsValueType)
+                {
+                    if (property.GetValue(obj).ToString() == 0.ToString())
+                        continue;
+                }
+                else
+                {
+                    if (property.GetValue(obj) == null)
+                        continue;
+                }
                 var name = property.Name;
+
                 valueStr += $"{name}=@{name},";
             }
             valueStr = valueStr.TrimEnd(',');
@@ -104,7 +121,7 @@ namespace DonePadClient.MySql
             }
         }
 
-        public static bool DeleteSingleUser(decimal userId)
+        public static bool DeleteSingleUser(int userId)
         {
             using (var con = OpenMySqlConnection())
             {
