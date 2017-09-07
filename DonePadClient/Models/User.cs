@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net.Mime;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -18,20 +19,12 @@ namespace DonePadClient.Models
 
     public class users
     {
-        [Property("PrimaryKey")]
+        [Key]
         public int userId { get; set; }
-        public string image { get; set; }
+        public Byte[] image { get; set; }
         public string userName { get; set; }
-        public string password { get; set; }
+        public string passWord { get; set; }
         public int permission { get; set; }
     }
-    public class Property : System.Attribute
-            {
-                 public string Value { get; set; }
-     
-             public Property(string Value)
-             {
-                 this.Value = Value;
-             }
-     }
+    
 }

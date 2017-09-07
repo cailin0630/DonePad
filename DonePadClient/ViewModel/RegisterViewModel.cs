@@ -3,6 +3,7 @@ using DonePadClient.Models;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Linq;
 using System.Windows.Input;
+using DonePadClient.MySql;
 
 namespace DonePadClient.ViewModel
 {
@@ -89,16 +90,22 @@ namespace DonePadClient.ViewModel
                 Tips = "password and confirmpassword isnot equal";
                 return;
             }
-            var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name) != null;
+            //var ret = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name) != null;
+            var ret = MySqlWithDapperSimple.GetListWithEntity<users>(new{userName=Name}).ToList().Count!=0;
             if (ret)
             {
                 Tips = "the username has been registered";
                 return;
             }
-            MongoDb.MongoDbProvide.Insert(new User
+            //MongoDb.MongoDbProvide.Insert(new User
+            //{
+            //    UserName = Name,
+            //    Password = Password.ToMd5EncryptString(),
+            //});
+            MySqlWithDapperSimple.InsertWithEntity(new users
             {
-                UserName = Name,
-                Password = Password.ToMd5EncryptString(),
+                userName = Name,
+                passWord = Password.ToMd5EncryptString(),
             });
             Tips = "register success";
         }

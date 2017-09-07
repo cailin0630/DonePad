@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DonePadClient.MySql;
 
 namespace DonePadClient.ViewModel
 {
@@ -21,7 +22,7 @@ namespace DonePadClient.ViewModel
             LoginCommand = new RelayCommand(DoLoginCommand, () => true);
             RegisterCommand = new RelayCommand(DoRegisterCommand, () => true);
             UpdateCommand = new RelayCommand(DoUpdateCommand, () => true);
-            UserModel = GetInstance<User>();
+            UserModel = GetInstance<users>();
             IsAutoLogin = LoginConfigHelper.Config.IsAutoLogin;
             IsKeepPassword = LoginConfigHelper.Config.IsKeepPassword;
             if (LoginConfigHelper.Config.IsAutoLogin)
@@ -47,8 +48,8 @@ namespace DonePadClient.ViewModel
         }
 
         private string _imageName;
-        public User UserModel { get; set; }
-
+        //public User UserModel { get; set; }
+        public users UserModel { get; set; }
         private void DoUpdateCommand()
         {
             if (Name.IsNullOrWhiteSpace() || Password.IsNullOrWhiteSpace())
@@ -56,16 +57,18 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var userInfo = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name);
-
+            //var userInfo = MongoDb.MongoDbProvide.QueryList<User>().FirstOrDefault(p => p.UserName == Name);
+            var userInfo = MySqlWithDapperSimple.GetListWithEntity<users>(new {userName=Name}).ToList().FirstOrDefault();
             if (userInfo == null)
             {
                 Tips = "用户名未注册";
                 return;
             }
-            var filter = Builders<User>.Filter.Eq("_id", userInfo._id);
-            var update = Builders<User>.Update.Set("Password", Password.ToMd5EncryptString());
-            var ret = MongoDb.MongoDbProvide.Update(filter, update);
+            //var filter = Builders<User>.Filter.Eq("_id", userInfo._id);
+            //var update = Builders<User>.Update.Set("Password", Password.ToMd5EncryptString());
+            //var ret = MongoDb.MongoDbProvide.Update(filter, update);
+            userInfo.passWord = Password.ToMd5EncryptString();
+            var ret = MySqlWithDapperSimple.UpdateSingle(userInfo);
             Tips = ret ? "密码修改成功" : "密码修改失败";
         }
 
@@ -81,18 +84,25 @@ namespace DonePadClient.ViewModel
                 Tips = "用户名或者密码为空";
                 return;
             }
-            var userInfo = MongoDb.MongoDbProvide.QueryList<User>()
-                .FirstOrDefault(p => p.UserName == Name && p.Password == Password.ToMd5EncryptString());
+            //var userInfo = MongoDb.MongoDbProvide.QueryList<User>()
+            //    .FirstOrDefault(p => p.UserName == Name && p.Password == Password.ToMd5EncryptString());
 
-            if (userInfo == null)
+            var userInfo = MySqlWithDapperSimple.GetListWithEntity<users>(new
+            {
+                userName = Name,
+                passWord = Password.ToMd5EncryptString()
+            }).ToList().FirstOrDefault();
+
+          
+            if (userInfo==null)
             {
                 Tips = "用户名或密码错误";
                 return;
             }
             Tips = "登录成功";
-            UserModel._id = userInfo._id;
-            UserModel.UserName = userInfo.UserName;
-            UserModel.Image = userInfo.Image;
+            UserModel.userId = userInfo.userId;
+            UserModel.userName = userInfo.userName;
+            UserModel.image = userInfo.image;
 
             LoginConfigHelper.Config.IsAutoLogin = IsAutoLogin;
             LoginConfigHelper.Config.UserName = Name;

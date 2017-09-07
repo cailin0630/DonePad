@@ -52,6 +52,9 @@ namespace DonePadClient.ViewModel
             //×¢²ámodel
             SimpleIoc.Default.Register<User>();
             SimpleIoc.Default.Register<TodoInfos>();
+
+            SimpleIoc.Default.Register<users>();
+            SimpleIoc.Default.Register<todoinfo>();
             //×¢²áview
             SimpleIoc.Default.Register<LoginWindow>();
             SimpleIoc.Default.Register<MainWindow>();

@@ -25,7 +25,7 @@ namespace DonePadClient
                     Show();
             });
             new LoginWindow().ShowDialog();
-            _currentUser = ServiceLocator.Current.GetInstance<User>(typeof(User).Name).UserName;
+            _currentUser = ServiceLocator.Current.GetInstance<users>(typeof(users).Name).userName;
             if (_currentUser == null)
                 Close();
 

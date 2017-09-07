@@ -1,13 +1,14 @@
 ﻿using DonePadClient.Extensions;
 using DonePadClient.Models;
 using GalaSoft.MvvmLight.CommandWpf;
-using Microsoft.Win32;
 using MongoDB.Driver;
 using System;
 using System.IO;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace DonePadClient.ViewModel
 {
@@ -93,7 +94,11 @@ namespace DonePadClient.ViewModel
             {
                 Filter = "jpg|*.jpg*|bmp|*.bmp*|png|*.png*|所有文件|*.*"
             };
-            openfile.ShowDialog();
+            var showDialog = openfile.ShowDialog();
+            if (showDialog != null && !showDialog.Value)
+            {
+                return;
+            }
             _imageName = openfile.FileName;
             ImageSource = new BitmapImage(new Uri(_imageName));
         }

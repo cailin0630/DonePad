@@ -78,6 +78,8 @@ namespace DonePadClient.MySql
             }
         }
 
+     
+
         public static bool UpdateSingleUser(users user)
         {
             using (var con = OpenMySqlConnection())

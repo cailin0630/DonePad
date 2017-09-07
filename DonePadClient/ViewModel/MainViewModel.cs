@@ -57,8 +57,8 @@ namespace DonePadClient.ViewModel
                 while (true)
                 {
                     Thread.Sleep(500);
-                    UserName = GetInstance<User>().UserName;
-                    var imagebyte = GetInstance<User>().Image;
+                    UserName = GetInstance<users>().userName;
+                    var imagebyte = GetInstance<users>().image;
                     if (imagebyte != null)
                     {
                         App.Current.Dispatcher.Invoke(new Action(() =>
